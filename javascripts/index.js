@@ -8,9 +8,22 @@ require.config({
   // - Contains an URL protocol like 'http:' or 'https:'
   paths: {
     // 'test': 'vender/test.js'
+  },
+  
+  //Remember: only use shim config for non-AMD scripts,
+  //scripts that do not already call define(). The shim
+  //config will not work correctly if used on AMD scripts,
+  //in particular, the exports and init config will not
+  //be triggered, and the deps config will be confusing
+  //for those cases.
+  shim: {
+    'controllers/rails_conf': {
+      exports: 'RailsConf'
+    }
   }
 });
 
-require(['app'], function(app) {
+require(['controllers/rails_conf', 'app'], function(RailsConf, app) {
+  RailsConf.say();
   app.start();
 });
